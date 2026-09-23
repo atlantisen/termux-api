@@ -9,7 +9,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -19,7 +18,7 @@ import android.util.Size;
 
 import androidx.annotation.NonNull;
 
-import com.termux.api.util.ResultReturner;
+import com.termux.api.TermuxApiReceiver;
 import com.termux.shared.logger.Logger;
 
 import java.io.File;
@@ -32,10 +31,10 @@ public class CameraPhotoAPI {
 
     private static final String LOG_TAG = "CameraPhotoAPI";
 
-    public static void onReceive(final Context context, final Intent intent) {
+    public static void onReceive(TermuxApiReceiver apiReceiver, final Context context, final Intent intent) {
         final String filePath = intent.getStringExtra("file");
         final String cameraId = intent.getStringExtra("camera");
-        final String customSize = intent.getStringExtra("size"); // Örn: "1280x720"
+        final String customSize = intent.getStringExtra("size");
 
         if (filePath == null) {
             Logger.logError(LOG_TAG, "No output file specified.");
@@ -81,7 +80,7 @@ public class CameraPhotoAPI {
                     }
                 }
                 if (selectedSize == null && sizes != null && sizes.length > 0) {
-                    selectedSize = sizes[0]; // Bulunamazsa en yüksek boyut
+                    selectedSize = sizes[0];
                 }
             }
 
@@ -159,4 +158,3 @@ public class CameraPhotoAPI {
         }
     }
                 }
-            
